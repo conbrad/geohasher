@@ -14,7 +14,7 @@ static BASE32: [char; 32] = [
 ///
 /// * `lat` - The latitude in decimal degrees (range: -90 to 90)
 /// * `lng` - The longitude in decimal degrees (range: -180 to 180)
-///
+/// * `precision` - The number of characters in the resulting geohash string
 /// # Returns
 ///
 /// A String containing the geohash representation of the given coordinates.
