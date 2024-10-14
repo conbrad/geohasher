@@ -24,7 +24,7 @@ static BASE32: [char; 32] = [
 /// ```
 /// use geohasher::encode;
 ///
-/// let geohash = encode(57.64911, 10.40744);
+/// let geohash = encode(57.64911, 10.40744, 8);
 /// assert_eq!(geohash, "u4pruydq");
 /// ```
 
