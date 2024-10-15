@@ -2,6 +2,11 @@
 Simple geohash encode/decode functions without any dependencies.
 
 
+### Installation
+
+`cargo install geohasher`
+
+
 ### Encoding
 
 To encode a latitude and longitude into a geohash:
