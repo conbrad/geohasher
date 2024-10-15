@@ -2,6 +2,7 @@
 name = "geohasher"
 version = "0.1.0"
 description = "Simple geohash encode/decode functions without any dependencies."
+documentation = "https://github.com/conbrad/geohasher/blob/main/README.md"
 edition = "2021"
 authors = ["Conor Brady <con.brad@gmail.com>"]
 license = "Apache-2.0"
