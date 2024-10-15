@@ -27,17 +27,17 @@ use crate::constants::BASE32;
 pub fn encode(lat: f64, lng: f64, precision: usize) -> String {
     let mut z_coordinate = Vec::with_capacity(60);
     let mut lat_interval = (-90.0, 90.0);
-    let mut lng_interval = (-180.0, 180.0);
+    let mut lon_interval = (-180.0, 180.0);
 
     for _ in 0..60 {
-        let mid = (lng_interval.0 + lng_interval.1) / 2.0;
+        let mid = (lon_interval.0 + lon_interval.1) / 2.0;
 
         if lng > mid {
             z_coordinate.push(1);
-            lng_interval.0 = mid;
+            lon_interval.0 = mid;
         } else {
             z_coordinate.push(0);
-            lng_interval.1 = mid;
+            lon_interval.1 = mid;
         }
 
         let mid = (lat_interval.0 + lat_interval.1) / 2.0;

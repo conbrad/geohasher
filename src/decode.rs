@@ -32,29 +32,29 @@ use crate::constants::BASE32;
 
 pub fn decode(geohash: &str) -> (f64, f64) {
     let mut lat_interval = (-90.0, 90.0);
-    let mut lng_interval = (-180.0, 180.0);
+    let mut lon_interval = (-180.0, 180.0);
 
     let mut lat_bit = false;
     for c in geohash.chars() {
         let char_index = BASE32.iter().position(|&ch| ch == c).unwrap();
-        let bits = decimal_to_bits(char_index);
+        let bits = decimal_to_binary(char_index);
         
         for bit in bits {
             if lat_bit {
                 lat_interval = refine_interval(lat_interval, bit);
             } else {
-                lng_interval = refine_interval(lng_interval, bit);
+                lon_interval = refine_interval(lon_interval, bit);
             }
             lat_bit = !lat_bit;
         }
     }
 
     let lat = (lat_interval.0 + lat_interval.1) / 2.0;
-    let lng = (lng_interval.0 + lng_interval.1) / 2.0;
+    let lng = (lon_interval.0 + lon_interval.1) / 2.0;
     (lat, lng)
 }
 
-pub fn decimal_to_bits(mut n: usize) -> Vec<u8> {
+pub fn decimal_to_binary(mut n: usize) -> Vec<u8> {
     if n == 0 {
         return vec![0, 0, 0, 0, 0];
     }
@@ -96,12 +96,12 @@ mod tests {
 
     #[test]
     fn test_d2b_basic() {
-        assert_eq!(decimal_to_bits(BASE32.iter().position(|&c| c == 'u').unwrap()), vec![1, 1, 0, 1, 0]);
-        assert_eq!(decimal_to_bits(BASE32.iter().position(|&c| c == '4').unwrap()), vec![0, 0, 1, 0, 0]);
-        assert_eq!(decimal_to_bits(BASE32.iter().position(|&c| c == 'p').unwrap()), vec![1, 0, 1, 0, 1]);
-        assert_eq!(decimal_to_bits(BASE32.iter().position(|&c| c == 'r').unwrap()), vec![1, 0, 1, 1, 1]);
-        assert_eq!(decimal_to_bits(BASE32.iter().position(|&c| c == 'y').unwrap()), vec![1, 1, 1, 1, 0]);
-        assert_eq!(decimal_to_bits(BASE32.iter().position(|&c| c == 'd').unwrap()), vec![0, 1, 1, 0, 0]);
-        assert_eq!(decimal_to_bits(BASE32.iter().position(|&c| c == 'q').unwrap()), vec![1, 0, 1, 1, 0]);
+        assert_eq!(decimal_to_binary(BASE32.iter().position(|&c| c == 'u').unwrap()), vec![1, 1, 0, 1, 0]);
+        assert_eq!(decimal_to_binary(BASE32.iter().position(|&c| c == '4').unwrap()), vec![0, 0, 1, 0, 0]);
+        assert_eq!(decimal_to_binary(BASE32.iter().position(|&c| c == 'p').unwrap()), vec![1, 0, 1, 0, 1]);
+        assert_eq!(decimal_to_binary(BASE32.iter().position(|&c| c == 'r').unwrap()), vec![1, 0, 1, 1, 1]);
+        assert_eq!(decimal_to_binary(BASE32.iter().position(|&c| c == 'y').unwrap()), vec![1, 1, 1, 1, 0]);
+        assert_eq!(decimal_to_binary(BASE32.iter().position(|&c| c == 'd').unwrap()), vec![0, 1, 1, 0, 0]);
+        assert_eq!(decimal_to_binary(BASE32.iter().position(|&c| c == 'q').unwrap()), vec![1, 0, 1, 1, 0]);
     }
 }
