@@ -1,6 +1,6 @@
 [package]
 name = "geohasher"
-version = "0.1.0"
+version = "0.1.1"
 description = "Simple geohash encode/decode functions without any dependencies."
 documentation = "https://github.com/conbrad/geohasher/blob/main/README.md"
 edition = "2021"
