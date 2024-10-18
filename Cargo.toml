@@ -1,6 +1,6 @@
 [package]
 name = "geohasher"
-version = "0.1.3"
+version = "0.1.4"
 description = "Simple geohash encode/decode functions without any dependencies."
 documentation = "https://docs.rs/geohasher/"
 edition = "2021"
