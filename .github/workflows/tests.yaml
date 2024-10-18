@@ -38,4 +38,10 @@ jobs:
         run: |
           mkdir -p coverage          
           grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o ./coverage/
-          echo "coverage=$(cat ./coverage/lcov)" >> $GITHUB_OUTPUT
+          if [ -f ./coverage/lcov.info ]; then
+            echo "Coverage file generated successfully"
+            echo "coverage_report=$(base64 -w 0 ./coverage/lcov.info)" >> $GITHUB_OUTPUT
+          else
+            echo "Error: lcov.info file not generated"
+            exit 1
+          fi
