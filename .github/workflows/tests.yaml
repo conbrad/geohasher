@@ -33,5 +33,6 @@ jobs:
 
       - name: Generate coverage report
         run: |
+          mkdir -p coverage          
           grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o ./coverage/
           echo "coverage=$(cat ./coverage/lcov.info)" >> $GITHUB_OUTPUT
