@@ -24,4 +24,4 @@ jobs:
       - name: Generate coverage report
         run: |
           grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o .
-          echo "coverage=$(cat lcov.info)" >> $GITHUB_OUTPUT
+          echo "coverage=$(ls -la)" >> $GITHUB_OUTPUT
