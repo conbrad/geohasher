@@ -45,3 +45,9 @@ jobs:
             echo "Error: lcov file not generated"
             exit 1
           fi
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v4.2.0
+        with:
+          file: ./coverage/lcov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }} 
