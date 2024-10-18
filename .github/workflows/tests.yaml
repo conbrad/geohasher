@@ -1,0 +1,30 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  generate:
+    name: Generate
+    runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: "-Cinstrument-coverage"
+      LLVM_PROFILE_FILE: "geohasher-%p-%m.profraw"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: llvm-tools-preview
+      - run: cargo install grcov
+      - run: cargo build
+      - run: cargo test
+      - run: grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing -o ./target/debug/coverage/
+      - run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
+
+
+      - name: Generate coverage report
+        run: |
+          grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o ./target/debug/coverage/
+          echo "coverage=$(cat ./target/debug/coverage/lcov)" >> $GITHUB_OUTPUT
