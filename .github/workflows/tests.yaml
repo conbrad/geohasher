@@ -27,7 +27,7 @@ jobs:
           echo "version=$GRCOV_VERSION" >> $GITHUB_OUTPUT
       
       - name: Cache grcov
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-grcov
         with:
           path: ~/.cargo/bin/grcov
