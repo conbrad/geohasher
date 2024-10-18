@@ -9,8 +9,6 @@ jobs:
   generate:
     name: Generate
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     env:
       RUSTFLAGS: "-Cinstrument-coverage"
       LLVM_PROFILE_FILE: "geohasher-%p-%m.profraw"
@@ -25,5 +23,5 @@ jobs:
 
       - name: Generate coverage report
         run: |
-          grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o ./target/debug/coverage/
-          echo "coverage=$(cat ./target/debug/coverage/lcov.info)" >> $GITHUB_OUTPUT
+          grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o .
+          echo "coverage=$(cat lcov.info)" >> $GITHUB_OUTPUT
