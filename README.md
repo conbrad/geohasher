@@ -1,6 +1,7 @@
 ### Geohasher
 [![Crates.io](https://img.shields.io/crates/v/geohasher.svg)](https://crates.io/crates/geohasher)
 [![Documentation](https://docs.rs/geohasher/badge.svg)](https://docs.rs/geohasher)
+[![codecov](https://codecov.io/gh/conbrad/geohasher/graph/badge.svg?token=LNCFZRT18I)](https://codecov.io/gh/conbrad/geohasher)
 
 Simple geohash encode/decode functions without any dependencies.
 
