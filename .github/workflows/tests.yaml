@@ -7,7 +7,7 @@ on:
 
 jobs:
   generate:
-    name: Generate
+    name: Run tests and upload coverage report
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,19 +19,24 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: llvm-tools-preview
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - name: Install grcov
+      
+      - name: Get latest grcov version
+        id: grcov-version
         run: |
-          if ! command -v grcov &> /dev/null; then
-            cargo install grcov
-          fi
+          GRCOV_VERSION=$(cargo search grcov --limit 1 | grep -oP '(?<=").*(?=")')
+          echo "version=$GRCOV_VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Cache grcov
+        uses: actions/cache@v4
+        id: cache-grcov
+        with:
+          path: ~/.cargo/bin/grcov
+          key: ${{ runner.os }}-grcov-${{ steps.grcov-version.outputs.version }}
+
+      - name: Install or update grcov
+        if: steps.cache-grcov.outputs.cache-hit != 'true'
+        run: cargo install grcov --version ${{ steps.grcov-version.outputs.version }}
+
       - run: cargo build
       - run: cargo test
       - name: Generate coverage report
