@@ -93,6 +93,12 @@ mod tests {
         assert!((lng - 10.40744).abs() < 0.001);
     }
 
+    #[test]
+    fn test_d2b_zero_case() {
+        assert_eq!(decimal_to_binary(0), vec![0, 0, 0, 0, 0]);
+    }
+
+
 
     #[test]
     fn test_d2b_basic() {
