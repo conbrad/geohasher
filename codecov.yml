@@ -1,0 +1,4 @@
+
+# ignore the bin directory that uses the library, not the library itself
+ignore:
+  - "src/bin"
