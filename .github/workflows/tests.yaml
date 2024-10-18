@@ -27,12 +27,15 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - run: cargo install grcov
+      - name: Install grcov
+        run: |
+          if ! command -v grcov &> /dev/null; then
+            cargo install grcov
+          fi
       - run: cargo build
       - run: cargo test
-
       - name: Generate coverage report
         run: |
           mkdir -p coverage          
           grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o ./coverage/
-          echo "coverage=$(cat ./coverage/lcov.info)" >> $GITHUB_OUTPUT
+          echo "coverage=$(cat ./coverage/lcov)" >> $GITHUB_OUTPUT
