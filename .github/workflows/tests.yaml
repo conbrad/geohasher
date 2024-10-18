@@ -9,6 +9,8 @@ jobs:
   generate:
     name: Generate
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       RUSTFLAGS: "-Cinstrument-coverage"
       LLVM_PROFILE_FILE: "geohasher-%p-%m.profraw"
@@ -17,11 +19,19 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: llvm-tools-preview
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - run: cargo install grcov
       - run: cargo build
       - run: cargo test
 
       - name: Generate coverage report
         run: |
-          grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o .
-          echo "coverage=$(ls -la)" >> $GITHUB_OUTPUT
+          grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o ./coverage/
+          echo "coverage=$(cat ./coverage/lcov.info)" >> $GITHUB_OUTPUT
