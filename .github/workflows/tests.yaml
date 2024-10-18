@@ -20,11 +20,8 @@ jobs:
       - run: cargo install grcov
       - run: cargo build
       - run: cargo test
-      - run: grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing -o ./target/debug/coverage/
-      - run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
-
 
       - name: Generate coverage report
         run: |
           grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing -o ./target/debug/coverage/
-          echo "coverage=$(cat ./target/debug/coverage/lcov)" >> $GITHUB_OUTPUT
+          echo "coverage=$(cat ./target/debug/coverage/lcov.info)" >> $GITHUB_OUTPUT
